@@ -1,48 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import React from "react";
-import { View ,SafeAreaView, Text, FlatList,TouchableOpacity, Image, StyleSheet, Button } from "react-native";
-import logo1 from '../assets/knives-out-final-poster.png'; 
-import logo2 from '../assets/Avengers_Endgame_poster.png'; 
-import logo3 from '../assets/aquietplace.png'; 
-import logo4 from '../assets/wonder-woman-banner.png'; 
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator,View ,SafeAreaView, Text, FlatList,TouchableOpacity, Image, StyleSheet, Button } from "react-native";
 
-
-const DATA = [
-    {
-      key: '1',
-      title: 'Knives Out',
-      URL: logo1,
-      
-    },
-    {
-      key: '2',
-      title: 'Avengers: Endgame',
-      URL: logo2,
-    },
-    {
-      key: '3',
-      title: 'A Quiet Place',
-      URL: logo3,
-      
-    },
-    {
-      key: '4',
-      title: 'Wonder Woman',
-      URL: logo4,
-      
-    },
-    
-  ];
 
   const HomeScreen =  props => {
-
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+  
+    useEffect(() => {
+      fetch('https://facebook.github.io/react-native/movies.json')
+        .then((response) => response.json())
+        .then((json) => setData(json.movies))
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+    }, []);
+  
   
   const renderItem = ({ item }) => (
     <View style={styles.item}>
     
       <Button style={styles.title} onPress={() => props.navigation.navigate('Details',{
             title : item.title,
-            URL : item.URL,
+            releaseyear : item.releaseYear,
             
         })}  title = {item.title} /> 
       
@@ -55,7 +34,7 @@ const DATA = [
         <SafeAreaView style={styles.container}>
           <FlatList
           
-            data={DATA}
+            data={data}
             renderItem={renderItem}
             keyExtractor={item => item.id}
           />
@@ -83,4 +62,3 @@ const DATA = [
   });
   
   export default HomeScreen;
-  
