@@ -9,11 +9,12 @@ import { render } from 'react-dom';
 //Create a function which return JSX
 const DetailsScreen =  (props) => {
     // this.props.route.params.params.report.name
-    
+    console.log(props)
     return (
     <View style={styles.container}>
-        <Image source = {props.navigation.getParam("URL")} style={{width: '100%', height:'100%',flex: 3, resizeMode: "stretch"}}/>
+        
         <Button style={{fontSize: 25,fontWeight: "bold"}} title = {props.navigation.getParam("title")} />
+        <Button title = {props.navigation.getParam("releaseyear")} style={{width: '100%', height:'100%',flex: 1, resizeMode: "stretch"}}/>
     </View>
     );
 
